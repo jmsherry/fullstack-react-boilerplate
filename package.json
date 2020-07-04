@@ -1,0 +1,21 @@
+{
+  "name": "fullstack-boilerplate",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "James Sherry <james.m.sherry@googlemail.com>",
+  "license": "MIT",
+  "scripts": {
+    "setup": "concurrently --kill-others-on-fail  \"cd server && yarn\" \"cd client && yarn\"",
+    "client:build": "cd client && yarn build",
+    "client:dev": "cd client && yarn start",
+    "server:dev": "cd server && yarn start:dev",
+    "dev": "concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client:dev\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd client && yarn build",
+    "server": "cd server && yarn start",
+    "start": "yarn client:build && yarn server"
+  },
+  "dependencies": {
+    "concurrently": "^5.2.0"
+  }
+}
