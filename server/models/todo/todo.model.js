@@ -7,7 +7,7 @@ const {
 } = mongoose;
 
 const TodoSchema = new Schema({
-  name: {
+  title: {
     type: String,
     required: true,
   },

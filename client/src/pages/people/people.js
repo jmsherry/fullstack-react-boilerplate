@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Header from "./../../components/header/header";
 import PageFrame from "./../../components/page-frame/page-frame";
 import NoResults from "./../../components/no-results/no-results";
@@ -10,28 +10,33 @@ import { PeopleContext } from "./../../contexts/people.context";
 // import useFetch from "react-fetch-hook";
 
 function People() {
-  const { people, loading, loaded, error, getPeople } = useContext(PeopleContext);
-  console.log('people', people);
-  if (!loaded) {
-    getPeople();
-  }
-    return (
-      <div className="App">
-        <Header />
-        <main>
-          <PageFrame>
-            <h1>People</h1>
-            {loading && <CircularProgress />}
-            {!loading && error && <ErrorDisplay error={error} />}
-            {!loading && !error && people && people.length ? (
-              <PeopleList people={people} title="People" level="h1" />
-            ) : (
-              <NoResults dataName="people" />
-            )}
-          </PageFrame>
-        </main>
-      </div>
-    );
+  const { people, loaded, fetchPeople, loading, error } = useContext(
+    PeopleContext
+  );
+  console.log("people", people);
+  useEffect(() => {
+    console.log("in useEffect", people, loaded);
+    if (!loaded) {
+      fetchPeople();
+    }
+  }, [loaded, fetchPeople, people]);
+  return (
+    <div className="App">
+      <Header />
+      <main>
+        <PageFrame>
+          <h1>People</h1>
+          {loading && <CircularProgress />}
+          {!loading && error && <ErrorDisplay error={error} />}
+          {!loading && !error && people && people.length ? (
+            <PeopleList people={people} />
+          ) : (
+            <NoResults dataName="people" />
+          )}
+        </PageFrame>
+      </main>
+    </div>
+  );
 }
 
 export default People;

@@ -1,8 +1,25 @@
 import React, { useContext } from "react";
 import Button from "@material-ui/core/Button";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import { TodosContext } from "./../../contexts/todos.context";
-import { useToasts } from "react-toast-notifications";
-import ListItem from "@material-ui/core/ListItem";
+// import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
+
+const useStyles = makeStyles((theme) => ({
+  item: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+  },
+  display: {
+    marginInlineEnd: "50px",
+  },
+}));
 
 const TodoListItem = ({
   item: {
@@ -11,50 +28,38 @@ const TodoListItem = ({
     description,
     owner: { firstName, lastName, email },
   },
-  headingLevel = "h2",
 }) => {
-  const { updateTodo, deleteTodo } = useContext(TodosContext);
-  const { addToast } = useToasts();
-  async function updateHandler(id) {}
+  const classes = useStyles();
+  const history = useHistory();
+  const { deleteTodo } = useContext(TodosContext);
 
-  async function deleteHandler(id) {
-    try {
-      const response = await fetch(`/api/v1/todos/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
-      if (response.status < 200 || response.status >= 300) {
-        throw response;
-      }
-      const data = await response.json();
-      deleteTodo(id);
-      addToast(`Successfully deleted ${data.title}`, {
-        appearance: "success",
-      });
-    } catch (err) {
-      console.log(err);
-      addToast(`Error ${err.message || err.statusText}`, {
-        appearance: "error",
-      });
-    }
+  function updateHandler(id) {
+    history.push(`/todos/update/${id}`);
   }
-  const HeadingTag = headingLevel;
+
   return (
-    <ListItem>
-      <HeadingTag>{title}</HeadingTag>
-      <p>{description}</p>
-      <p>
-        Owned by:{" "}
-        {`${firstName} ${lastName} (<a href="mailto:${email}">${email}</a>)`}
-      </p>
-      <div className="controls">
-        <Button onClick={() => updateHandler(_id)}>Update</Button>
-        <Button onClick={() => deleteHandler(_id)}>Delete</Button>
+    <li className={classes.item}>
+      <div className={classes.display}>
+        <p>{title}</p>
       </div>
-    </ListItem>
+      <div className={classes.display}>
+        <p>{description}</p>
+      </div>
+      <div className={classes.display}>
+        <p>
+          {/* Could use a person list item component here... */}
+          {firstName} {lastName} (<a href={`mailto:${email}`}>{email}</a>)
+        </p>
+      </div>
+      <div className={classes.controls}>
+        <Button onClick={() => updateHandler(_id)} aria-label="update todo">
+          <EditOutlinedIcon />
+        </Button>
+        <Button onClick={() => deleteTodo(_id)} aria-label="delete todo">
+          <DeleteOutlineIcon />
+        </Button>
+      </div>
+    </li>
   );
 };
 

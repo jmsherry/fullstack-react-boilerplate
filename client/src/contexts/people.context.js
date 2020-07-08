@@ -3,7 +3,7 @@ import { useToasts } from "react-toast-notifications";
 // import cloneDeep from 'lodash.cloneDeep' <-- use if your objects get complex
 
 export const PeopleContext = createContext({
-  getPeople: () => [],
+  fetchPeople: () => [],
   addPerson: () => {},
   updatePerson: () => {},
   deletePerson: () => {},
@@ -21,7 +21,7 @@ export const PeopleProvider = (props) => {
   // const [search, setSearch] = useState("");
   const { addToast } = useToasts();
 
-  const getPeople = async () => {
+  const fetchPeople = async () => {
     // console.log('loading', loading);
     // console.log('error', error);
     if (loading || loaded || error) {
@@ -105,7 +105,7 @@ export const PeopleProvider = (props) => {
         newPerson,
         ...people.slice(index + 1),
       ];
-      await setPeople(updatedPeople);
+      setPeople(updatedPeople);
       addToast(`Updated ${newPerson.firstName} ${newPerson.lastName}`, {
         appearance: "success",
       });
@@ -141,7 +141,7 @@ export const PeopleProvider = (props) => {
         ...people.slice(0, index),
         ...people.slice(index + 1),
       ];
-      await setPeople(updatedPeople);
+      setPeople(updatedPeople);
       addToast(`Deleted ${deletedPerson.firstName} ${deletedPerson.lastName}`, {
         appearance: "success",
       });
@@ -162,7 +162,7 @@ export const PeopleProvider = (props) => {
         people,
         loading,
         error,
-        getPeople,
+        fetchPeople,
         addPerson,
         updatePerson,
         deletePerson,

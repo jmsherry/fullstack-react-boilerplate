@@ -24,14 +24,14 @@ exports.addTodo = function (req, res) {
 
 exports.updateTodo = function (req, res) {
   Todo.updateOne({ _id: req.params.id }, req.body, function (err) {
-    if (err) errorHandler(res, err);
+    if (err) return errorHandler(res, err);
     res.sendStatus(200);
   });
 };
 
 exports.removeTodo = function (req, res) {
   Todo.deleteOne({ _id: req.params.id }, function (err) {
-    if (err) errorHandler(res, err);
+    if (err) return errorHandler(res, err);
     res.sendStatus(204);
   });
 };

@@ -25,14 +25,14 @@ exports.addPerson = function (req, res) {
 
 exports.updatePerson = function (req, res) {
   Person.updateOne({ _id: req.params.id }, req.body, function (err, result) {
-    if (err) errorHandler(res, err);
+    if (err) return errorHandler(res, err);
     res.sendStatus(200);
   });
 };
 
 exports.removePerson = function (req, res) {
   Person.deleteOne({ _id: req.params.id }, function (err) {
-    if (err) errorHandler(res, err);
+    if (err) return errorHandler(res, err);
     res.sendStatus(204);
   });
 };

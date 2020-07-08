@@ -1,127 +1,137 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
   TextField,
   Select,
   MenuItem,
-  FormControl,
   InputLabel,
 } from "@material-ui/core";
 import { yupResolver } from "@hookform/resolvers";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
-import { useToasts } from "react-toast-notifications";
+import { useParams } from "react-router-dom";
 
 import { TodosContext } from "./../../../contexts/todos.context";
-
-// const useStyles = makeStyles({
-//   form: {
-//     maxWidth: "80%",
-//     margin: "auto",
-//   },
-//   formRow: {
-//     padding: "0px 15px",
-//   },
-// });
+import { PeopleContext } from "./../../../contexts/people.context";
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
+  button: {
     margin: theme.spacing(1),
-    minWidth: 120,
-    display: "flex",
   },
-  controls: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
+  formRow: {
+    // padding: theme.spacing(1),
+    margin: `0 auto ${theme.spacing(1)}px`,
+    maxWidth: "50%",
   },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
+  errorMessage: {
+    color: "red",
   },
 }));
 
-function TodoForm({ loadingBehaviour = true }) {
+function TodoForm({ initialValues }) {
   const classes = useStyles();
-  const { todos, addTodos } = useContext(TodosContext);
-  const { addToast } = useToasts();
+  let { id } = useParams();
+  const [populated, setPopulated] = useState(false);
+  const { addTodo, updateTodo } = useContext(TodosContext);
+
+  const { people, loaded: peopleLoaded, fetchPeople } = useContext(
+    PeopleContext
+  );
 
   useEffect(() => {
-    if (!todos.length) {
-      (async () => {
-        
-      })();
+    console.log("in useEffect", people, peopleLoaded);
+    if (!peopleLoaded) {
+      fetchPeople();
     }
-  }, [todos, addTodos, addToast]);
+  }, [peopleLoaded, fetchPeople, people]);
 
-  const ids = todos.map((todo) => todo._id);
+  const ids = people.map((person) => person._id);
   const schema = yup.object().shape({
     title: yup.string().required().min(2).max(20),
     description: yup.string().required().min(2).max(50),
     owner: yup.mixed().oneOf(ids),
   });
+
   const { handleSubmit, errors, control, reset, formState } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
-    defaultValues: {
-      title: "",
-      description: "",
-      owner: "",
-    },
   });
-  console.log("errors", errors);
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
+
+  if (initialValues && !populated) {
+    const formValues = { ...initialValues, owner: initialValues.owner._id };
+    console.log("formValues", formValues);
+    reset(formValues);
+    setPopulated(true);
+  }
+
+  // console.log("errors", errors);
+  const onSubmit = async (formValues) => {
+    console.log("formValues", formValues);
+    // formValues._id = id; // pulled from the URL using router 'useParams' hook
+
+    if (populated) {
+      const updates = {};
+      for (const key in initialValues) {
+        if (initialValues.hasOwnProperty(key)) {
+          if (initialValues[key] !== formValues[key] && key[0] !== '_') {
+            updates[key] = formValues[key];
+          }
+        }
+      }
+
+      console.log("updates", updates);
+      const args = [id, updates];
+
+      if('owner' in updates) {
+        console.log('adding back owner')
+        const fullOwner = people.find(person => person._id === updates.owner);
+        args.push(fullOwner)
+      }
+      
+      updateTodo(...args);
+    } else {
+      addTodo(formValues);
+    }
   };
-  if (loadingBehaviour) return <p>Loading...</p>;
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-      <FormControl className={classes.formControl}>
-        {/* <label htmlFor="firstName">First Name</label>
-              <input type="text" id="firstName" name="firstName" ref={register} />
-              {errors.firstName && "Title name is required"} */}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className={classes.formRow}>
         <Controller
-          as={<TextField />}
+          as={<TextField helperText={errors.title && errors.title.message} />}
           error={!!errors.title}
-          helperText={errors.title && errors.title.message}
           id="title"
           name="title"
           label="Title"
           fullWidth
           control={control}
-          // defaultValue=""
           rules={{ required: true }}
         />
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        {/* <label htmlFor="firstName">First Name</label>
-              <input type="text" id="firstName" name="firstName" ref={register} />
-              {errors.firstName && "Title name is required"} */}
+      </div>
+      <div className={classes.formRow}>
         <Controller
-          as={<TextField />}
-          error={!!errors.lastName}
-          helperText={errors.lastName && errors.lastName.message}
+          as={
+            <TextField
+              helperText={errors.description && errors.description.message}
+            />
+          }
+          error={!!errors.description}
+          helperText={errors.description && errors.description.message}
           id="description"
           name="description"
           label="Description"
           multiline
           fullWidth
           control={control}
-          // defaultValue=""
           rules={{ required: true }}
         />
-      </FormControl>
-      <FormControl className={classes.formControl}>
+      </div>
+      <div className={classes.formRow}>
         <InputLabel id="owner">Owner</InputLabel>
         <Controller
           as={
             <Select>
-              <MenuItem key={-1} value="">
-                Pick a todo
-              </MenuItem>
-              {todos.map((todo, i) => (
+              {people.map((todo, i) => (
                 <MenuItem key={i} value={todo._id}>
                   {todo.lastName} {todo.firstName}
                 </MenuItem>
@@ -129,22 +139,39 @@ function TodoForm({ loadingBehaviour = true }) {
             </Select>
           }
           error={!!errors.owner}
-          helperText={errors.owner && errors.owner.message}
           id="owner"
           name="owner"
           label="Owner"
           fullWidth
           control={control}
-          // defaultValue=""
           rules={{ required: true }}
         />
-      </FormControl>
-      <FormControl className={clsx(classes.formControl, classes.controls)}>
-        <Button onClick={reset}>Reset</Button>
-        <Button type="submit" color="primary" disabled={!formState.isValid}>
-          Submit
+        <InputLabel id="owner" className={classes.errorMessage}>
+          {errors.owner && errors.owner.message}
+        </InputLabel>
+      </div>
+      <div className={classes.formRow}>
+        <Button
+          onClick={() =>
+            reset({
+              title: "",
+              description: "",
+              owner: "",
+            })
+          }
+        >
+          Reset
         </Button>
-      </FormControl>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          disabled={!formState.isValid}
+        >
+          {populated ? "Update" : "Add"} Todo
+        </Button>
+      </div>
     </form>
   );
 }

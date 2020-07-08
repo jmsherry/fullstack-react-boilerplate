@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import PageFrame from "../../components/page-frame/page-frame";
 import Header from "../../components/header/header";
 import PersonForm from "../../components/forms/person-form/person-form";
@@ -7,8 +7,17 @@ import { PeopleContext } from "./../../contexts/people.context";
 
 function UpdatePeople() {
   let { id } = useParams();
-  const { people, getPeople } = useContext(PeopleContext);
-  getPeople();
+  const { people, loaded, fetchPeople } = useContext(
+    PeopleContext
+  );
+  console.log("people", people);
+  useEffect(() => {
+    console.log("in useEffect", people, loaded);
+    if (!loaded) {
+      fetchPeople();
+    }
+  }, [loaded, fetchPeople, people]);
+
   console.log("people", people);
   const personToBeUpdated = people.find((person) => person._id === id);
   console.log("personToBeUpdated", personToBeUpdated);

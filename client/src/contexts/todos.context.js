@@ -1,9 +1,10 @@
 import React, { createContext, useState } from "react";
 import { useToasts } from "react-toast-notifications";
 // import cloneDeep from 'lodash.cloneDeep' <-- use if your objects get complex
+// import {PeopleContext} from './people.context';
 
 export const TodosContext = createContext({
-  getTodos: () => [],
+  fetchTodos: () => [],
   addTodo: () => {},
   updateTodo: () => {},
   deleteTodo: () => {},
@@ -20,8 +21,9 @@ export const TodosProvider = (props) => {
   const [error, setError] = useState(null);
   // const [search, setSearch] = useState("");
   const { addToast } = useToasts();
+  // const { people } = useContext(PeopleContext);
 
-  const getTodos = async () => {
+  const fetchTodos = async () => {
     // console.log('loading', loading);
     // console.log('error', error);
     if (loading || loaded || error) {
@@ -73,7 +75,8 @@ export const TodosProvider = (props) => {
     }
   };
 
-  const updateTodo = async (id, updates) => {
+  const updateTodo = async (id, updates, fullOwner) => {
+    console.log("here", id, updates);
     let newTodo = null;
     try {
       const response = await fetch(`/api/v1/todos/${id}`, {
@@ -92,27 +95,34 @@ export const TodosProvider = (props) => {
 
       // Get actual todo
       const oldTodo = todos[index];
-
+      console.log("here", oldTodo);
       // Merge with updates
       newTodo = {
-        // legit use of 'var', so can be seen in catch block
         ...oldTodo,
         ...updates, // order here is important for the override!!
       };
+
+      // this is a bit sketchy, but shouldn't go out of line
+      if(typeof newTodo.owner === 'string') {
+        newTodo.owner = fullOwner;
+      }
+
+      console.log("here", newTodo);
       // recreate the todos array
       const updatedTodos = [
         ...todos.slice(0, index),
         newTodo,
         ...todos.slice(index + 1),
       ];
-      await setTodos(updatedTodos);
-      addToast(`Updated ${newTodo.firstName} ${newTodo.lastName}`, {
+      
+      setTodos(updatedTodos);
+      addToast(`Updated ${newTodo.title}`, {
         appearance: "success",
       });
     } catch (err) {
       console.log(err);
       addToast(
-        `Error: Failed to update ${newTodo.firstName} ${newTodo.lastName}`,
+        `Error: Failed to update ${newTodo.title}`,
         {
           appearance: "error",
         }
@@ -142,13 +152,16 @@ export const TodosProvider = (props) => {
         ...todos.slice(index + 1),
       ];
       await setTodos(updatedTodos);
-      addToast(`Deleted ${deletedTodo.firstName} ${deletedTodo.lastName}`, {
-        appearance: "success",
-      });
+      addToast(
+        `Deleted ${deletedTodo.owner.firstName} ${deletedTodo.owner.lastName}`,
+        {
+          appearance: "success",
+        }
+      );
     } catch (err) {
       console.log(err);
       addToast(
-        `Error: Failed to update ${deletedTodo.firstName} ${deletedTodo.lastName}`,
+        `Error: Failed to update ${deletedTodo.owner.firstName} ${deletedTodo.owner.lastName}`,
         {
           appearance: "error",
         }
@@ -160,9 +173,10 @@ export const TodosProvider = (props) => {
     <TodosContext.Provider
       value={{
         todos,
+        loaded,
         loading,
         error,
-        getTodos,
+        fetchTodos,
         addTodo,
         updateTodo,
         deleteTodo,

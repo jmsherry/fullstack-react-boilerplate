@@ -1,7 +1,9 @@
 import React, { useContext, useState } from "react";
-import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+} from "@material-ui/core";
 import { yupResolver } from "@hookform/resolvers";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
@@ -13,11 +15,11 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
-  controls: {
-    margin: theme.spacing(1),
-  },
   formRow: {
-    padding: theme.spacing(1),
+    margin: theme.spacing(1),
+    minWidth: 120,
+    display: "flex",
+    justifyContent: 'center',
   },
 }));
 
@@ -36,7 +38,6 @@ function PersonForm({ initialValues }) {
   const { handleSubmit, errors, control, reset, formState } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
-    defaultValues: {},
   });
 
   if (initialValues && !populated) {
@@ -49,11 +50,11 @@ function PersonForm({ initialValues }) {
     console.log("formValues", formValues);
     // formValues._id = id; // pulled from the URL using router 'useParams' hook
 
-    if(populated){
+    if (populated) {
       const updates = {};
       for (const key in initialValues) {
-        if(initialValues.hasOwnProperty(key)) {
-          if(initialValues[key] !== formValues[key]){
+        if (initialValues.hasOwnProperty(key)) {
+          if (initialValues[key] !== formValues[key]) {
             updates[key] = formValues[key];
           }
         }
@@ -78,7 +79,6 @@ function PersonForm({ initialValues }) {
           name="firstName"
           label="First Name"
           control={control}
-          defaultValue=""
           rules={{ required: true }}
         />
       </div>
@@ -94,7 +94,6 @@ function PersonForm({ initialValues }) {
           id="lastName"
           label="Last Name"
           control={control}
-          defaultValue=""
           rules={{ required: true }}
         />
       </div>
@@ -111,12 +110,21 @@ function PersonForm({ initialValues }) {
           name="email"
           label="Email"
           control={control}
-          defaultValue=""
           rules={{ required: true }}
         />
       </div>
       <div className={classes.formRow}>
-        <Button onClick={reset}>Reset</Button>
+        <Button
+          onClick={() =>
+            reset({
+              firstName: "",
+              lastName: "",
+              email: "",
+            })
+          }
+        >
+          Reset
+        </Button>
         <Button
           type="submit"
           variant="contained"
@@ -124,7 +132,7 @@ function PersonForm({ initialValues }) {
           className={classes.button}
           disabled={!formState.isValid}
         >
-          {populated ? 'Update' : 'Add'} Person
+          {populated ? "Update" : "Add"} Person
         </Button>
       </div>
     </form>
