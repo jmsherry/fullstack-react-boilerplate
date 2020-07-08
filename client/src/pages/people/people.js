@@ -26,13 +26,14 @@ function People() {
       <main>
         <PageFrame>
           <h1>People</h1>
-          {loading && <CircularProgress />}
-          {!loading && error && <ErrorDisplay error={error} />}
+          {loading ? (<CircularProgress />) : null}
+          {!loading && error ? (<ErrorDisplay error={error} />): null}
           {!loading && !error && people && people.length ? (
             <PeopleList people={people} />
-          ) : (
+          ) : null};
+          {!loading && !error && people && !people.length ? (
             <NoResults dataName="people" />
-          )}
+          ): null}
         </PageFrame>
       </main>
     </div>
