@@ -2,7 +2,6 @@ import React from "react";
 import Header from "./../../components/header/header";
 import PageFrame from "./../../components/page-frame/page-frame";
 
-
 function Home() {
   return (
     <div className="App">
@@ -20,16 +19,44 @@ function Home() {
             There are 6 other pages (not counting the 404 page). These will
             allow you to:
           </p>
-          <ul>
+          <ul
+            className="typographic"
+            style={{
+              fontWeight: "bold",
+              maxWidth: "40%",
+              textAlign: "left",
+              margin: "auto",
+            }}
+          >
             <li>
-              List people (including the ability to delete and navigate to
-              update pages)
+              List people{" "}
+              <span
+                style={{
+                  // display: "block",
+                  fontWeight: "normal",
+                }}
+              >
+                (including the ability to delete and navigate to update pages)
+              </span>
             </li>
             <li>Add people</li>
-            <li>Update people</li>
+            <li
+              style={{
+                marginBottom: "15px",
+              }}
+            >
+              Update people
+            </li>
             <li>
-              List tasks (including the ability to delete and navigate to update
-              pages)
+              List tasks{" "}
+              <span
+                style={{
+                  // display: "block",
+                  fontWeight: "normal",
+                }}
+              >
+                (including the ability to delete and navigate to update pages)
+              </span>
             </li>
             <li>Add tasks</li>
             <li>Update tasks</li>
