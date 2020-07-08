@@ -1,54 +1,50 @@
-import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
+import React from "react";
 import "./App.css";
+import {
+  BrowserRouter as Router,
+  Route,
+  // Redirect,
+  Switch,
+} from "react-router-dom";
+import { ToastProvider } from "react-toast-notifications";
+import { AuthProvider } from "./contexts/auth.context";
+import { PeopleProvider } from "./contexts/people.context";
+import { TodosProvider } from "./contexts/todos.context";
+import { MenuProvider } from "./contexts/menu.context";
+
+import Home from "./pages/home/home";
+import People from "./pages/people/people";
+import Todos from "./pages/todos/todos";
+import NotFound from "./pages/404/404";
+import AddPeople from "./pages/add-people/add-people";
+import UpdatePeople from "./pages/update-people/update-people";
+import AddTodos from "./pages/add-todos/add-todos";
+import UpdateTodos from "./pages/update-todos/update-todos";
 
 function App() {
-  const [people, setPeople] = useState([]);
-  const [error, setError] = useState(null);
-  const [fetched, setFetched] = useState(false);
-  useEffect(() => {
-    (async () => {
-      if (!fetched) {
-        try {
-          const response = await fetch("/api/v1/people");
-          const data = await response.json();
-          console.log("data", data);
-          setPeople(data);
-        } catch (err) {
-          console.log("error", err);
-          setError(err);
-        } finally {
-          setFetched(true);
-        }
-      }
-    })();
-  }, [people, fetched]);
-
-  const ErrorDisplay = (err) => (
-    <p>
-      <strong>There was an error: {err.message}</strong>
-    </p>
-  );
-  const NoPeople = () => <p>There are no people</p>;
-  const PeopleList = ({ people }) => (
-    <ul>
-      {people.map((person, i) => (
-        <li key={person._id || i}>
-          {person.firstname} {person.lastname} ({person.email})
-        </li>
-      ))}
-    </ul>
-  );
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
-      <main>
-        {error && <ErrorDisplay error={error} />}
-        {people.length ? <PeopleList people={people} /> : <NoPeople />}
-      </main>
-    </div>
+    <ToastProvider autoDismiss={true}>
+      <AuthProvider>
+        <PeopleProvider>
+          <TodosProvider>
+            <MenuProvider>
+              <Router>
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/people" component={People} />
+                  <Route exact path={`/people/add`} component={AddPeople} />
+                  <Route exact path={`/people/update/:id`} component={UpdatePeople} />
+                  <Route exact path="/todos" component={Todos} />
+                  <Route exact path={"/todos/add"} component={AddTodos} />
+                  <Route exact path={`/todos/update/:id`} component={UpdateTodos} />
+                  <Route path="*" component={NotFound} />
+                </Switch>
+              </Router>
+            </MenuProvider>
+          </TodosProvider>
+        </PeopleProvider>
+      </AuthProvider>
+    </ToastProvider>
   );
 }
 
