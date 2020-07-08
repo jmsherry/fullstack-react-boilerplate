@@ -5,7 +5,7 @@ const NoResults = ({
   dataName = "items",
   tag: Tag = "p",
 }) => (
-  <Tag>
+  <Tag className="no-results">
     {`${customText} ${dataName}`}
   </Tag>
 );
