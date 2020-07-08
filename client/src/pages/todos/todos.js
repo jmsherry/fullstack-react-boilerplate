@@ -28,12 +28,11 @@ function Todos() {
           <h1>Todos</h1>
           {loading && <CircularProgress />}
           {!loading && error && <ErrorDisplay error={error} />}
-          {!loading && !error && todos && !todos.length && (
+          {/* The '?' below is an 'optional chaining operator' (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) */}
+          {!loading && !error && !todos?.length && (
             <NoResults dataName="todos" />
           )}
-          {!loading && !error && todos && todos.length && (
-            <TodosList todos={todos} />
-          )}
+          {!loading && !error && todos?.length && <TodosList todos={todos} />}
         </PageFrame>
       </main>
     </div>

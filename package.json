@@ -10,12 +10,21 @@
     "client:dev": "cd client && yarn start",
     "server:dev": "cd server && yarn start:dev",
     "dev": "concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client:dev\"",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "client:test": "cd client && yarn test",
+    "server:test": "cd server && jest",
+    "test": "concurrently --kill-others-on-fail \"yarn server:test\" \"yarn client:test\"",
+    "test:e2e:dev": "concurrently --kill-others-on-fail \"yarn dev\" \"npx cypress open --config-file cypress.dev.json\"",
+    "test:e2e:prod": "concurrently --kill-others-on-fail \"yarn start\" \"npx cypress open --config-file cypress.prod.json \"",
     "client": "cd client && yarn build",
     "server": "cd server && yarn start",
     "start": "yarn client:build && yarn server"
   },
   "dependencies": {
     "concurrently": "^5.2.0"
+  },
+  "devDependencies": {
+    "cypress": "^4.10.0",
+    "eslint-plugin-cypress": "^2.11.1",
+    "prettier": "^2.0.5"
   }
 }

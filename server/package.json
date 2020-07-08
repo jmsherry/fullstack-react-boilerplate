@@ -6,7 +6,13 @@
   "scripts": {
     "start": "NODE_ENV=production node index.js",
     "start:dev": "NODE_ENV=development nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -16,6 +22,7 @@
     "mongoose": "^5.9.21"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "supertest": "^4.0.2"
   }
 }

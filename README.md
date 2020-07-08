@@ -13,6 +13,4 @@ This boilerplate wires up mongodb, express and Create React App.
 
 * This app uses the spread operator when cloning things. I've included `cloneDeep` from `lodash`, which you can use instead if you're objects are deeper than 2 levels
 
-* The only slightly sketch bit is passing the full owner in from the `todo-form.js` to the `todos.context` during update, because the select works by passing the string ID.
-
 * I think there's also a moment where the wrappers aren't passing the default values through to material-ui and that's why it complains about out-of-range values

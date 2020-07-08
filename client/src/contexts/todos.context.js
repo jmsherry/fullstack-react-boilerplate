@@ -153,7 +153,7 @@ export const TodosProvider = (props) => {
       ];
       await setTodos(updatedTodos);
       addToast(
-        `Deleted ${deletedTodo.owner.firstName} ${deletedTodo.owner.lastName}`,
+        `Deleted ${deletedTodo.title}`,
         {
           appearance: "success",
         }
@@ -161,7 +161,7 @@ export const TodosProvider = (props) => {
     } catch (err) {
       console.log(err);
       addToast(
-        `Error: Failed to update ${deletedTodo.owner.firstName} ${deletedTodo.owner.lastName}`,
+        `Error: Failed to update ${deletedTodo.title}`,
         {
           appearance: "error",
         }
