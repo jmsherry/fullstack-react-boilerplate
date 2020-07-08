@@ -8,6 +8,7 @@ const promise = mongoose
   .connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true, // Googled
   })
   .then(function (db) {
     console.log("DATABASE CONNECTED!!");

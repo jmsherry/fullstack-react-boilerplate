@@ -8,7 +8,7 @@ exports.getPeople = function (req, res) {
   }
   Person.find(query).exec((err, people) => {
     if (err) return errorHandler(res, err);
-    return res.status(201).json(people);
+    return res.status(200).json(people);
   });
 };
 
