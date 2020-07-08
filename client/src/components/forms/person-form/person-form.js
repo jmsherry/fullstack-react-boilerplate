@@ -54,7 +54,7 @@ function PersonForm({ initialValues }) {
       const updates = {};
       for (const key in initialValues) {
         if (initialValues.hasOwnProperty(key)) {
-          if (initialValues[key] !== formValues[key]) {
+          if (initialValues[key] !== formValues[key] && key[0] !== "_") {
             updates[key] = formValues[key];
           }
         }
