@@ -23,7 +23,7 @@ afterEach((done) => {
 });
 
 describe("Post Endpoints", () => {
-  it("should create a new post", async () => {
+  it("should create a new person", async () => {
     const res = await agent.post("/api/v1/people").send(fakePersonData);
 
     const responseData = res.body;

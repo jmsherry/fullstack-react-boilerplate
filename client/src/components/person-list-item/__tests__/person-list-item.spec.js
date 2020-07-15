@@ -4,7 +4,7 @@ import "@testing-library/jest-dom/extend-expect";
 
 import PersonListItem from "./../person-list-item";
 
-test("renders the homepage", () => {
+test("renders correctly", () => {
   const fakePersonData = {
     firstName: "James",
     lastName: "Sherry",

@@ -9,6 +9,7 @@
     "client:build": "cd client && yarn build",
     "client:dev": "cd client && yarn start",
     "server:dev": "cd server && yarn start:dev",
+    "server:dev:test": "cd server && yarn start:dev:test",
     "dev": "concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client:dev\"",
     "client:test": "cd client && yarn test",
     "server:test": "cd server && jest --detectOpenHandles",

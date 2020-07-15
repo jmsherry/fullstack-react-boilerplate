@@ -2,7 +2,7 @@
 const baseURL = Cypress.config("baseURL");
 describe("/people", () => {
   it("lists people", () => {
-    cy.log(Cypress.config("baseURL"));
+    // cy.log(Cypress.config("baseURL"));
     cy.visit(`${baseURL}/people`)
       .get(".no-results")
       .contains("There are no people");
