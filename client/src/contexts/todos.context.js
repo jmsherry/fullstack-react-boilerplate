@@ -64,7 +64,7 @@ export const TodosProvider = (props) => {
       const savedTodo = await response.json();
       console.log("got data", savedTodo);
       setTodos([...todos, savedTodo]);
-      addToast(`Saved ${savedTodo.firstName} ${savedTodo.lastName}`, {
+      addToast(`Saved ${savedTodo.title}`, {
         appearance: "success",
       });
     } catch (err) {
