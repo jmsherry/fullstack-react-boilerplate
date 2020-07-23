@@ -19,8 +19,8 @@
     "client": "cd client && yarn build",
     "server": "cd server && yarn start",
     "start": "yarn client:build && yarn server",
-    "start:heroku": "yarn setup && yarn client:build && yarn server",
-    "heroku-postbuild": "yarn setup && rimraf client/src"
+    "start:heroku": "yarn setup && yarn client:build && rimraf client/src && yarn server",
+    "heroku-postbuild": "yarn setup"
   },
   "dependencies": {
     "concurrently": "^5.2.0",
