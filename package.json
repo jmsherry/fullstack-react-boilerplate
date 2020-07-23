@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "setup": "concurrently --kill-others-on-fail  \"cd server && yarn\" \"cd client && yarn\"",
-    "client:build": "cd client && yarn build",
+    "client:build": "cd client && yarn build && rimraf client/src",
     "client:dev": "cd client && yarn start",
     "server:dev": "cd server && yarn start:dev",
     "server:dev:test": "cd server && yarn start:dev:test",
@@ -19,7 +19,7 @@
     "client": "cd client && yarn build",
     "server": "cd server && yarn start",
     "start": "yarn client:build && yarn server",
-    "start:heroku": "yarn setup && yarn client:build && rimraf client/src && yarn server",
+    "start:heroku": "yarn client:build && yarn server",
     "heroku-postbuild": "yarn setup"
   },
   "dependencies": {
