@@ -15,3 +15,7 @@ This boilerplate wires up mongodb, express and Create React App.
 - This app uses the spread operator when cloning things. I've included `cloneDeep` from `lodash`, which you can use instead if you're objects are deeper than 2 levels
 
 - I think there's also a moment where the wrappers aren't passing the default values through to material-ui and that's why it complains about out-of-range values
+
+## Heroku Branch
+
+There is a Heroku branch which will allow you to succesfully deploy to heroku. If you want to use it then (from the master branch) `git merge heroku`.
