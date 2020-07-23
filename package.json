@@ -20,13 +20,15 @@
     "server": "cd server && yarn start",
     "start": "yarn client:build && yarn server",
     "start:heroku": "yarn setup && yarn client:build && yarn server",
-    "heroku-postbuild": "yarn setup"
+    "heroku-postbuild": "yarn setup && rimraf client/src"
   },
   "dependencies": {
-    "concurrently": "^5.2.0"
+    "concurrently": "^5.2.0",
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "cypress": "^4.10.0",
+    "eslint": "^7.5.0",
     "eslint-plugin-cypress": "^2.11.1",
     "prettier": "^2.0.5"
   }
