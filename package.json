@@ -18,9 +18,9 @@
     "test:e2e:prod": "concurrently --kill-others-on-fail \"yarn start\" \"npx cypress open --config-file cypress.prod.json \"",
     "client": "cd client && yarn build",
     "server": "cd server && yarn start",
-    "start": "yarn client:build && yarn server",
-    "start:heroku": "rimraf ./cypress && yarn client:build && yarn server",
-    "heroku-postbuild": "yarn setup"
+    "build": "",
+    "heroku-postbuild": "rimraf ./cypress && yarn setup && yarn client:build",
+    "start": "yarn server"
   },
   "dependencies": {
     "concurrently": "^5.2.0",
