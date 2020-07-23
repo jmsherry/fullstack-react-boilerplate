@@ -19,7 +19,7 @@
     "client": "cd client && yarn build",
     "server": "cd server && yarn start",
     "start": "yarn client:build && yarn server",
-    "start:heroku": "yarn client:build && yarn server",
+    "start:heroku": "rimraf ./cypress && yarn client:build && yarn server",
     "heroku-postbuild": "yarn setup"
   },
   "dependencies": {
