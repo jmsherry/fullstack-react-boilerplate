@@ -23,28 +23,36 @@ import UpdateTodos from "./pages/update-todos/update-todos";
 
 function App() {
   return (
-    <ToastProvider autoDismiss={true}>
-      <AuthProvider>
-        <PeopleProvider>
-          <TodosProvider>
-            <MenuProvider>
-              <Router>
+    <Router>
+      <ToastProvider autoDismiss={true}>
+        <AuthProvider>
+          <PeopleProvider>
+            <TodosProvider>
+              <MenuProvider>
                 <Switch>
                   <Route exact path="/" component={Home} />
                   <Route exact path="/people" component={People} />
                   <Route exact path={`/people/add`} component={AddPeople} />
-                  <Route exact path={`/people/update/:id`} component={UpdatePeople} />
+                  <Route
+                    exact
+                    path={`/people/update/:id`}
+                    component={UpdatePeople}
+                  />
                   <Route exact path="/todos" component={Todos} />
                   <Route exact path={"/todos/add"} component={AddTodos} />
-                  <Route exact path={`/todos/update/:id`} component={UpdateTodos} />
+                  <Route
+                    exact
+                    path={`/todos/update/:id`}
+                    component={UpdateTodos}
+                  />
                   <Route path="*" component={NotFound} />
                 </Switch>
-              </Router>
-            </MenuProvider>
-          </TodosProvider>
-        </PeopleProvider>
-      </AuthProvider>
-    </ToastProvider>
+              </MenuProvider>
+            </TodosProvider>
+          </PeopleProvider>
+        </AuthProvider>
+      </ToastProvider>
+    </Router>
   );
 }
 
