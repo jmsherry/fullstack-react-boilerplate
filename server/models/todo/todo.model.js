@@ -18,6 +18,6 @@ const TodoSchema = new Schema({
   owner: { type: ObjectId, ref: "Person" }, // Works because person model will be stored in mongoose by the time this is queried
 });
 
-Todo = mongoose.model("Todo", TodoSchema);
+const Todo = mongoose.model("Todo", TodoSchema);
 
 module.exports = Todo;

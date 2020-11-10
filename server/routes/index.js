@@ -4,3 +4,5 @@ module.exports = function (app) {
   app.use(`${API_ENDPOINT}/${API_VERSION}/todos`, require("./todos.routes"));
   app.use(`${API_ENDPOINT}/${API_VERSION}/people`, require("./people.routes"));
 };
+
+// api/v1/people
