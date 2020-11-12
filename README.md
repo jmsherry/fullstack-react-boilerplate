@@ -18,4 +18,4 @@ This boilerplate wires up mongodb, express and Create React App.
 
 ## Heroku Branch
 
-There is a Heroku branch which will allow you to succesfully deploy to heroku. If you want to use it then (from the master branch) `git merge heroku`.
+There is a Heroku branch which will allow you to succesfully deploy to heroku. You can push to heroku's master branch with the command `git push -f heroku heroku:master`
