@@ -7,7 +7,7 @@ module.exports = function (app) {
   app.use(`${API_ENDPOINT}/${API_VERSION}/people`, require("./people.routes"));
   app.get("*", (req, res) => {
     if (process.env.NODE_ENV === "production") {
-      res.sendFile(path.join(__dirname, "../client/", "build/index.html"));
+      res.sendFile(path.join(__dirname, "../../client/", "build/index.html"));
     }
   });
   app.all("*", (req, res) => {
