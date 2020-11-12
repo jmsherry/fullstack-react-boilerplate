@@ -1,7 +1,7 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useContext } from "react";
 import { useToasts } from "react-toast-notifications";
 // import cloneDeep from 'lodash.cloneDeep' <-- use if your objects get complex
-// import {PeopleContext} from './people.context';
+import {PeopleContext} from './people.context';
 
 export const TodosContext = createContext({
   fetchTodos: () => [],
@@ -21,7 +21,7 @@ export const TodosProvider = (props) => {
   const [error, setError] = useState(null);
   // const [search, setSearch] = useState("");
   const { addToast } = useToasts();
-  // const { people } = useContext(PeopleContext);
+  const { people } = useContext(PeopleContext);
 
   const fetchTodos = async () => {
     // console.log('loading', loading);
@@ -62,6 +62,8 @@ export const TodosProvider = (props) => {
         throw response;
       }
       const savedTodo = await response.json();
+      const owner = people.find(person => person._id === savedTodo.owner);
+      savedTodo.owner = owner;
       console.log("got data", savedTodo);
       setTodos([...todos, savedTodo]);
       addToast(`Saved ${savedTodo.title}`, {
@@ -103,7 +105,7 @@ export const TodosProvider = (props) => {
       };
 
       // this is a bit sketchy, but shouldn't go out of line
-      if(typeof newTodo.owner === 'string') {
+      if (typeof newTodo.owner === "string") {
         newTodo.owner = fullOwner;
       }
 
@@ -114,19 +116,16 @@ export const TodosProvider = (props) => {
         newTodo,
         ...todos.slice(index + 1),
       ];
-      
+
       setTodos(updatedTodos);
       addToast(`Updated ${newTodo.title}`, {
         appearance: "success",
       });
     } catch (err) {
       console.log(err);
-      addToast(
-        `Error: Failed to update ${newTodo.title}`,
-        {
-          appearance: "error",
-        }
-      );
+      addToast(`Error: Failed to update ${newTodo.title}`, {
+        appearance: "error",
+      });
     }
   };
 
@@ -152,20 +151,14 @@ export const TodosProvider = (props) => {
         ...todos.slice(index + 1),
       ];
       await setTodos(updatedTodos);
-      addToast(
-        `Deleted ${deletedTodo.title}`,
-        {
-          appearance: "success",
-        }
-      );
+      addToast(`Deleted ${deletedTodo.title}`, {
+        appearance: "success",
+      });
     } catch (err) {
       console.log(err);
-      addToast(
-        `Error: Failed to update ${deletedTodo.title}`,
-        {
-          appearance: "error",
-        }
-      );
+      addToast(`Error: Failed to update ${deletedTodo.title}`, {
+        appearance: "error",
+      });
     }
   };
 
