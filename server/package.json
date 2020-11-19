@@ -7,7 +7,7 @@
     "start": "npx cross-env NODE_ENV=production node --optimize_for_size --max_old_space_size=920 index.js",
     "start:dev": "npx cross-env NODE_ENV=development nodemon index.js",
     "start:test": "npx cross-env NODE_ENV=test nodemon index.js",
-    "test": "npx cross-env NODE_ENV=test MONGODB_URI=mongodb://localhost/test-crae jest --testTimeout=10000"
+    "test": "npx cross-env NODE_ENV=test jest --testTimeout=10000"
   },
   "jest": {
     "testEnvironment": "node",

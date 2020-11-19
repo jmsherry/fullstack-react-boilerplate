@@ -12,7 +12,7 @@
     "server:dev:test": "cd server && yarn start:dev:test",
     "dev": "concurrently --kill-others-on-fail \"yarn server:dev\" \"yarn client:dev\"",
     "client:test": "cd client && yarn test",
-    "server:test": "cd server && jest --detectOpenHandles",
+    "server:test": "cd server && yarn test --detectOpenHandles",
     "test": "concurrently --kill-others-on-fail \"yarn server:test\" \"yarn client:test\"",
     "test:e2e:dev": "concurrently --kill-others-on-fail \"yarn dev\" \"npx cypress open --config-file cypress.dev.json\"",
     "test:e2e:prod": "concurrently --kill-others-on-fail \"yarn start\" \"npx cypress open --config-file cypress.prod.json \"",
