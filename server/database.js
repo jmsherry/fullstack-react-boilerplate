@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const localDBName = "crae";
 const { MONGODB_URI = `mongodb://localhost/${localDBName}` } = process.env;
 
+console.log('MONGODB_URI', MONGODB_URI);
+
 const promise = mongoose
   .connect(MONGODB_URI, {
     useNewUrlParser: true,
