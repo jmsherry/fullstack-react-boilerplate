@@ -5,4 +5,8 @@ deploy:
   app: travis-fullstack
   skip_cleanup: true
   run:
-   - "yarn setup"
+    - "yarn"
+    - "yarn setup"
+    - "yarn test"
+    - "yarn heroku-postbuild"
+    - "yarn start"

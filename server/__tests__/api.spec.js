@@ -27,6 +27,7 @@ describe("Post Endpoints", () => {
     const res = await agent.post("/api/v1/people").send(fakePersonData);
 
     const responseData = res.body;
+    console.log('responseData', responseData);
 
     expect(res.statusCode).toEqual(201);
 

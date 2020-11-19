@@ -18,18 +18,18 @@
     "test:e2e:prod": "concurrently --kill-others-on-fail \"yarn start\" \"npx cypress open --config-file cypress.prod.json \"",
     "client": "cd client && yarn build",
     "server": "cd server && yarn start",
-    "build": "",
-    "heroku-postbuild": "rimraf ./cypress && yarn setup && yarn client:build",
+    "build": "yarn setup && yarn client:build",
+    "heroku-postbuild": "rimraf ./cypress && yarn build",
     "start": "yarn server"
   },
   "dependencies": {
     "concurrently": "^5.2.0",
-    "rimraf": "^3.0.2",
-    "yarn": "^1.22.10"
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "cypress": "^4.10.0",
     "eslint-plugin-cypress": "^2.11.1",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "yarn": "^1.22.10"
   }
 }
