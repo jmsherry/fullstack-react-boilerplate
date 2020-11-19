@@ -7,6 +7,7 @@ deploy:
   run:
     - yarn
     - yarn setup
+    - echo test
     - yarn test
     - yarn heroku-postbuild
 language: node_js
