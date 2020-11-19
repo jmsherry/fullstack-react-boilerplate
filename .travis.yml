@@ -5,6 +5,8 @@ deploy:
   app: travis-fullstack
   skip_cleanup: true
   language: node_js
+  node_js:
+  - 14
   run:
   - yarn
   - yarn setup
