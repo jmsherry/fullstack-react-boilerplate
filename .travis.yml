@@ -9,4 +9,4 @@ deploy:
     - "yarn setup"
     - "yarn test"
     - "yarn heroku-postbuild"
-    - "yarn start"
+    # - "yarn start"
