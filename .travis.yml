@@ -3,10 +3,10 @@ deploy:
   api_key:
     secure: Qa0MYrfT2z/CNNSfy41M4PhT/u2TtYcOBPQRaYYVH17jQLY2H/D9Mt4vzY6+zVJx1ts/DfvqL8zh7zq/dHJcvE5eAVPSizKJuvYDW1XzFAi+5JnJqjSiUhTFtBDxOC3f3Gw0WejVvt9gacCGcEy3l2vOGm5A18rlsuxxARCvLbUe2SDz218ZZNT5rkpSZwWj2mYhmRpsWXvV52YUA8ovzi2qjLS61r15evnNDAhDmLmybKT7NhXDiye1flyKygIYBEQ+WSuQmj8UTI/8gT0dMQANkWqGMjlXCgOPJ2mpHhIpmliDu/L1FXBVP305F78cVIdV3jF6ENq9m1MowZZUwMILU577kATu/1eT6DhyQjmGBthPVromFCNTy3b67wYsId4efBdB1Xdnevi3SO1ACBg5fWuXCC/YnFFXrtlPvPyttDhR14ynt3YLuQh801yGIFelszpH1xgmYrqYHvEITT9GtIYXdtlwgCvYom/w5lbaXUsQYC4cpIpe9XF+N0r7c0zq3QzTQYTQgRH/uF97p5oIieDWwglgzwsMWVnLg+HMEvIqxQZ9pvqmv+osaQprQeWF39gYxYlOfaY6pSegj85W0KCDFp97tOfknnGbpN6lAQ+Yuh82oAeXEVIvetyp8AWYxMBsD9B2iQgCGBW5eXoZGYMuBmVlFYsvHq3ixRw=
   app: travis-fullstack
-  skip_cleanup: true
+  cleanup: true
   language: node_js
   node_js:
-    - 14
+    - "14"
   run:
     - yarn
     - yarn setup
