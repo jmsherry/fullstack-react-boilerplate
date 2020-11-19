@@ -4,8 +4,11 @@
   "main": "index.js",
   "author": "James Sherry <james.m.sherry@googlemail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
-    "setup": "concurrently --kill-others-on-fail  \"cd server && yarn\" \"cd client && yarn\"",
+    "setup": "concurrently --kill-others-on-fail  \"cd server && yarn\" \"cd client && yarn --network-concurrency 1\"",
     "client:build": "cd client && yarn build && rimraf client/src",
     "client:dev": "cd client && yarn start",
     "server:dev": "cd server && yarn start:dev",
