@@ -1,3 +1,11 @@
+language: node_js
+node_js:
+  - "14"
+install:
+  - "yarn setup"
+script:
+  - yarn test
+  - yarn heroku-postbuild
 deploy:
   provider: heroku
   api_key:
@@ -5,14 +13,11 @@ deploy:
   app: travis-fullstack
   cleanup: true
   run:
-    - yarn
-    - yarn setup
-    - echo test
-    - yarn test
-    - yarn heroku-postbuild
-language: node_js
-node_js:
-  - "14"
+    - "yarn"
+    - "yarn setup"
+    - "echo test"
+    - "yarn test"
+    - "yarn heroku-postbuild"
 env:
   global:
     secure: o4IibhgLIm1LhKjWkIPILzJlwo4M7DpkfP4dtxbggklHCpR/902inJ3W44aSTKaQ1vwOR1NUF22kFHOp4tGYW8XdXNepigVo90MfTvW4Xj7NQPxf4r986qme4MOvb2aqLhv5kRhcHF/l5KGIHCPVcXPbwoFzKK0mm+wIjdEwa3vk+SphTHDQFo5FRPr1IEJ+zflRKfYcyzxVECLP3TbTNt6vgSYC5y3JE6uqW1WaTtlg9imI44uaHs+7szWEgYE4xO28LnBUBSaI7fihl4qhJyya40uOQjz8MsIJOHmibDmASko16MATCH10772H6xV/PC5vdV3zisHKatiBTCulNqVJ5AQ+tb8TU+lNwbcwRye8DANi1cNOqcY5f3MAPurwrhkMueMSqBRIDIndiTBlkVQQa6aKV2aDojClXxZqI9mdOpmc9FBBStR0sc3jOlVKBuJho3SFh55PjYvO8r4KEEYzsqoa4z9mokLE9Pzet57zCVsZ0Atn0ptqmXnNYBU/KJ9+64+88COYnvk+vRMGGHinDxtBMPdwwyptBjMgwrJqzVR0hIKrWbhfjS4FWpWzXcs8svu2cpRfS32c2meDp2I8K7bLmndoIHTjULu5wCFxFFBjauZOdgGGgfI+WlhoujKJDkMyxFye/3W8Vt5mmAkZ/4cW5u+tIYS8iw1GlQI=
