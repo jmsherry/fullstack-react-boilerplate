@@ -24,7 +24,8 @@
   },
   "dependencies": {
     "concurrently": "^5.2.0",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "cypress": "^4.10.0",
